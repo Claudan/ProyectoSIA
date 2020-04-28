@@ -11,9 +11,12 @@
 
 namespace GeneticoLib {
 
+	std::list<Jugador> ListaJ;
+
 	Plantel::Plantel()
 	{
 	}
+
 
 	std::list<Jugador> Plantel::getLista()
 	{
@@ -28,28 +31,106 @@ namespace GeneticoLib {
 		}
 	}
 
-	void Plantel::cargarArchivo(std::string nombreArchivo)
+	std::vector<std::vector<int>> Plantel::archivoMalaSinergia(std::string nombreArchivo)
+	{
+		std::ifstream FileSinergia;
+		std::cout << "Leyendo mala sinergia\n";
+		FileSinergia.open(nombreArchivo);
+		if (!FileSinergia)
+		{
+			std::cout << "No se pudo abrir el archivo de sinergias.";
+			exit(1); // terminate with error
+		}
+		std::string token;
+		std::vector<int> malaSinergia;
+		std::vector<std::vector<int>> todasMalasSinergias;
+		std::string lineFromFile;
+		getline(FileSinergia, lineFromFile);
+		todasMalasSinergias.clear();
+		while (!FileSinergia.eof())
+		{
+			malaSinergia.clear();
+			std::stringstream ss(lineFromFile);
+			std::string token;
+			std::string token2;
+			char delim = ';';
+			char delim2 = ',';
+			getline(ss, token, delim);
+			std::stringstream ss2(token);
+			while (getline(ss2, token2, delim2))
+			{
+				malaSinergia.insert(malaSinergia.end(), std::stoi(token2));
+				std::cout << token2 << " ";
+			}
+			todasMalasSinergias.push_back(malaSinergia);
+			getline(ss, token, delim);
+			getline(FileSinergia, lineFromFile);
+		}
+		FileSinergia.close();
+		std::cout << "Lectura mala sinergia OK.\n";
+		return todasMalasSinergias;
+	}
+
+	std::vector<std::vector<int>> Plantel::archivoBuenoSinergia(std::string nombreArchivo)
+	{
+		std::ifstream FileSinergia;
+		FileSinergia.open(nombreArchivo);
+		if (!FileSinergia)
+		{
+			std::cout << "No se pudo abrir el archivo de sinergias.";
+			exit(1); // terminate with error
+		}
+		std::string token;
+		std::vector<int> buenaSinergia;
+		std::vector<std::vector<int>> todasBuenasSinergias;
+		std::string lineFromFile;
+		getline(FileSinergia, lineFromFile);
+		todasBuenasSinergias.clear();
+		while (!FileSinergia.eof())
+		{
+			buenaSinergia.clear();
+			std::stringstream ss(lineFromFile);
+			std::string token;
+			std::string token2;
+			char delim = ';';
+			char delim2 = ',';
+			getline(ss, token, delim);
+			getline(ss, token, delim);
+			std::stringstream ss2(token);
+			while (getline(ss2, token2, delim2))
+			{
+				buenaSinergia.insert(buenaSinergia.end(), std::stoi(token2));
+			}
+			todasBuenasSinergias.push_back(buenaSinergia);
+			getline(FileSinergia, lineFromFile);
+		}
+		FileSinergia.close();
+		return todasBuenasSinergias;
+	}
+
+	void Plantel::cargarArchivo(std::string nombrePolivalencia, std::string nombreSinergia)
 	{
 
-		std::ifstream inFile;
-
-		inFile.open(nombreArchivo);
-		if (!inFile)
+		std::ifstream FilePolivalencia;
+		FilePolivalencia.open(nombrePolivalencia);
+		if (!FilePolivalencia)
 		{
-			std::cout << "Unable to open file";
+			std::cout << "No se pudo abrir uno de los archivos.";
 			exit(1); // terminate with error
 		}
 
 		std::string lineFromFile;
-		getline(inFile, lineFromFile);
+		getline(FilePolivalencia, lineFromFile);
 		int nro = 1;
 		float n = 0;
 
 		std::vector<float> compatibilidadPos;
-		std::vector <int> malaSinergia;
-		std::vector <int> buenaSinergia;
+		std::vector<std::vector<int>> todasMalasSinergias = archivoMalaSinergia(nombreSinergia);
+		std::vector<std::vector<int>> todasBuenasSinergias = archivoBuenoSinergia(nombreSinergia);
+		std::vector<int> malaSinergia;
+		std::vector<int> buenaSinergia;
 		int sum = 0;
-		while (!inFile.eof())
+		while (!FilePolivalencia.eof())
 		{
 			compatibilidadPos.clear();
 			malaSinergia.clear();
@@ -57,9 +138,8 @@ namespace GeneticoLib {
 			sum = 0;
 			std::stringstream ss(lineFromFile);
 			std::string token;
-			char delim = ';';
-			char secondDelim = ',';
-			std::string secondToken;
+			//char delim = ';';
+			char delim = ',';
 			std::string nombre;
 			while (getline(ss, token, delim))
 			{
@@ -71,29 +151,17 @@ namespace GeneticoLib {
 				{
 					compatibilidadPos.insert(compatibilidadPos.end(), strtof((token).c_str(), 0));
 				}
-
-				else if (sum == 15) {
-					std::stringstream ss2(token);
-					while (getline(ss2, secondToken, secondDelim)) {
-						malaSinergia.insert(malaSinergia.end(), std::stoi(secondToken));
-					}
-				}
-				else if (sum == 16) {
-					std::stringstream ss2(token);
-					while (getline(ss2, secondToken, secondDelim)) {
-						buenaSinergia.insert(buenaSinergia.end(), std::stoi(secondToken));
-					}
-				}
 				sum++;
-
 			}
-			getline(inFile, lineFromFile);
+			malaSinergia = todasMalasSinergias[nro - 1];
+			buenaSinergia = todasBuenasSinergias[nro - 1];
+			getline(FilePolivalencia, lineFromFile);
 			ListaJ.push_back(Jugador(nombre, nro, compatibilidadPos, malaSinergia, buenaSinergia));
 			nro++;
 		}
-		inFile.close();
+		FilePolivalencia.close();
 	}
-
+	
 	int Plantel::getLargo()
 	{
 		return (int)ListaJ.size();

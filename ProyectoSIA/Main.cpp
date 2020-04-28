@@ -20,11 +20,12 @@ int main()
 
     vector<string> input = { "4-4-2", "Defensiva", "Posesion","4-5-1", "4-3-2-1", "Contraataque", "Directo" };
     vector<vector<string>> soluciones = exp.infiereTodasLasSolucionesBC(input);*/
- 
-    string rutaarchivoplantel ="Polivalencia_coquimbo.txt";
-    string rutaRoles = "Formaciones\\Formacion1.txt";
+    
+    string rutaarchivoplantel ="..\\GeneticoLib\\Polivalencia_coquimbo.csv";
+    string rutasinergias = "..\\GeneticoLib\\sinergiaCoquimbo.txt";
+    string rutaRoles = "..\\GeneticoLib\\Formaciones\\Formacion1.txt";
     Plantel plantel;
-    plantel.cargarArchivo(rutaarchivoplantel);
+    plantel.cargarArchivo(rutaarchivoplantel, rutasinergias);
     string forTactica = devolverForTactica(rutaRoles);
     int * rol = devolverRoles(rutaRoles);
     char modo = devolverModo(rutaRoles);
@@ -32,7 +33,7 @@ int main()
     //nombrearchivoplantel, roljugadores, porcentajemutacion, iteraciones, poblacion,porcentaje mutacion, de 0 a 100,cantidad generaciones maxima,tamano poblacion
 	sol=Genetico(plantel,rol,modo,forTactica,50,5000,20);
     for (int i = 0; i < sol.size(); i++) sol.at(i).ImprimirFormacion();
-    entregarResultados(rutaarchivoplantel, sol, rol, forTactica);
+    entregarResultados(plantel, sol, rol, forTactica);
 
     return(0);
 }

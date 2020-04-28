@@ -35,9 +35,7 @@ namespace GeneticoLib {
 		else return "Rol desconocido";
 	}
 
-	void entregarResultados(std::string nombrearchivoplantel, std::vector<Formacion> soluciones, int rol[], std::string tipoformacion) {
-		Plantel p;
-		p.cargarArchivo(nombrearchivoplantel);
+	void entregarResultados(Plantel p, std::vector<Formacion> soluciones, int rol[], std::string tipoformacion) {
 		std::ofstream salida;
 		salida.open("output.txt");
 		Formacion f;
