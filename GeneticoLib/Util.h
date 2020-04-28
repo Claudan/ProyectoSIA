@@ -39,7 +39,10 @@ namespace GeneticoLib {
 		std::ofstream salida;
 		salida.open("output.txt");
 		Formacion f;
-		for (int i = 0; i < 5; i++) {
+		int cantsol=5;
+		if (soluciones.size() < cantsol) cantsol = soluciones.size();
+
+		for (int i = 0; i < cantsol; i++) {
 			f = soluciones.at(i);
 			salida << "Formacion " << i + 1 << " (Tipo: "<<tipoformacion<<")"<<" (Valoracion: "<<f.getCalculoFitness()<<")"<<std::endl;
 			for (int k = 0; k < 10; k++) {
