@@ -4,15 +4,18 @@
 
 #include "ExpertoLib.h"
 #include "GeneticoLib.h"
-//#include "FID3Lib.h"
+#include "FID3Lib.h"
+
+#include <ManipuladorArchivos.h>
 
 using namespace std;
 using namespace ExpertoLib;
 using namespace GeneticoLib;
-//using namespace FID3Lib;
+using namespace FID3Lib;
 
 Experto conocimientoExpertoFIFA();
 int mainIdealPrototipoSIA();
+int calcularPolivalencia();
 
 int main()
 {
@@ -705,3 +708,481 @@ Experto conocimientoExpertoFIFA()
     return exp;
 }
 
+
+int calcularPolivalencia()
+{
+    std::vector<std::string> vectorJugadores;
+    FID3 objetoFID3 = FID3();
+    //FID3 objetoFID3 = FID3( 0.8, 0.1 ); //FID3(thetarR, thetaN)
+
+    //---------------
+    // Inserta Clases
+    //---------------
+    objetoFID3.agregaClase("Defensa central");
+    objetoFID3.agregaClase("Pivote");
+    objetoFID3.agregaClase("Delantero centro");
+    objetoFID3.agregaClase("Interior derecho");
+    objetoFID3.agregaClase("Interior izquierdo");
+    objetoFID3.agregaClase("Mediocentro ofensivo");
+    objetoFID3.agregaClase("Mediocentro");
+    objetoFID3.agregaClase("Mediapunta");
+    objetoFID3.agregaClase("Extremo izquierdo");
+    objetoFID3.agregaClase("Extremo derecho");
+    objetoFID3.agregaClase("Lateral derecho");
+    objetoFID3.agregaClase("Lateral izquierdo");
+    objetoFID3.agregaClase("Libero");
+    objetoFID3.agregaClase("Medio campo");
+    //	objetoFID3.agregaClase("Portero");
+
+        //-----------------------------------------------------------------------
+        // Lee documento(input) con elementos(jugadores) y sus clases resultantes
+        // e ingresa estos datos de entrenamiento
+        //-----------------------------------------------------------------------
+    ManipuladorArchivos archivo = ManipuladorArchivos("DatosJugadoresFutbolNuevos.csv");
+    archivo.leerArchivo("DataFuzzy.csv");
+
+    std::ifstream ip("DataFuzzy.csv");
+    if (!ip.is_open()) std::cout << "ERROR: No se pudo abrir el archivo" << std::endl;
+    //polivalencia
+    std::string polivalencia_baja_s;
+    std::string polivalencia_media_s;
+    std::string polivalencia_alta_s;
+    double temp_polivalencia_baja;
+    double temp_polivalencia_media;
+    double temp_polivalencia_alta;
+
+    //goleador
+    std::string goleador_baja_s;
+    std::string goleador_media_s;
+    std::string goleador_alta_s;
+    double temp_goleador_baja;
+    double temp_goleador_media;
+    double temp_goleador_alta;
+
+    //concentracionPartidosRelevantes 
+    std::string concentracionPartidosRelevantes_baja_s;
+    std::string concentracionPartidosRelevantes_alta_s;
+    double temp_concentracionPartidosRelevantes_baja;
+    double temp_concentracionPartidosRelevantes_alta;
+
+    //experiencia
+    std::string experiencia_baja_s;
+    std::string experiencia_media_s;
+    std::string experiencia_alta_s;
+    double temp_experiencia_baja;
+    double temp_experiencia_media;
+    double temp_experiencia_alta;
+
+    //garra
+    std::string garra_baja_s;
+    std::string garra_alta_s;
+    double temp_garra_baja;
+    double temp_garra_alta;
+
+    //biorritmo
+    std::string biorritmo_baja_s;
+    std::string biorritmo_media_s;
+    std::string biorritmo_alta_s;
+    double temp_biorritmo_baja;
+    double temp_biorritmo_media;
+    double temp_biorritmo_alta;
+
+    //salud
+    std::string salud_baja_s;
+    std::string salud_media_s;
+    std::string salud_alta_s;
+    double temp_salud_baja;
+    double temp_salud_media;
+    double temp_salud_alta;
+
+    //desempeno
+    std::string desempeno_baja_s;
+    std::string desempeno_media_s;
+    std::string desempeno_alta_s;
+    double temp_desempeno_baja;
+    double temp_desempeno_media;
+    double temp_desempeno_alta;
+
+    //temperamento
+    std::string temperamento_baja_s;
+    std::string temperamento_alta_s;
+    double temp_temperamento_baja;
+    double temp_temperamento_alta;
+
+    //madurezEmocional
+    std::string madurezEmocional_baja_s;
+    std::string madurezEmocional_alta_s;
+    double temp_madurezEmocional_baja;
+    double temp_madurezEmocional_alta;
+
+    //companerismo
+    std::string companerismo_baja_s;
+    std::string companerismo_alta_s;
+    double temp_companerismo_baja;
+    double temp_companerismo_alta;
+
+    //vision
+    std::string vision_media_s;
+    std::string vision_alta_s;
+    double temp_vision_media;
+    double temp_vision_alta;
+
+    //liderazgo
+    std::string liderazgo_baja_s;
+    std::string liderazgo_alta_s;
+    double temp_liderazgo_baja;
+    double temp_liderazgo_alta;
+
+    //clase
+    std::string clase;
+    std::string nombre;
+    Elemento elemento = Elemento();
+    std::map<std::string, double> fuzzyTypes;
+    int c = 0;
+    while (ip.good() && c < 100)
+    {
+
+        getline(ip, nombre, ';');
+        getline(ip, polivalencia_baja_s, ';');
+        std::cout << "ENTRENAMIENTO polivalencia_baja_s: " << polivalencia_baja_s << std::endl;
+        getline(ip, polivalencia_media_s, ';');
+        //std::cout << "polivalencia_media_s: "<< polivalencia_media_s << std::endl;
+        getline(ip, polivalencia_alta_s, ';');
+        //std::cout << "polivalencia_alta_s: " << polivalencia_alta_s  << std::endl;
+        getline(ip, goleador_baja_s, ';');
+        //std::cout << "goleador_baja_s: " << goleador_baja_s << std::endl;
+        getline(ip, goleador_media_s, ';');
+        //std::cout << "goleador_media_s: "<< goleador_media_s << std::endl;
+        getline(ip, goleador_alta_s, ';');
+        //std::cout << "goleador_alta_s: "<< goleador_alta_s << std::endl;
+        //getline(ip, concentracionPartidosRelevantes_baja_s, ';');
+        //std::cout << "concentracionPartidosRelevantes_baja_s: "<< concentracionPartidosRelevantes_baja_s << std::endl;
+        //getline(ip, concentracionPartidosRelevantes_alta_s, ';');
+        //std::cout << "concentracionPartidosRelevantes_alta_s: "<< concentracionPartidosRelevantes_alta_s << std::endl;
+        getline(ip, experiencia_baja_s, ';');
+        //std::cout << "experiencia_baja_s: " << experiencia_baja_s << std::endl;
+        getline(ip, experiencia_media_s, ';');
+        //std::cout << "experiencia_media_s: "<< experiencia_media_s << std::endl;
+        getline(ip, experiencia_alta_s, ';');
+        //std::cout << "experiencia_alta_s: "<< experiencia_alta_s << std::endl;
+        //getline(ip, garra_baja_s, ';');
+        //std::cout << "garra_baja_s: "<< garra_baja_s << std::endl;
+        //getline(ip, garra_alta_s, ';');
+        //std::cout << "garra_alta_s: " << garra_alta_s << std::endl;
+        //getline(ip, biorritmo_baja_s, ';');
+        //std::cout << "biorritmo_baja_s: " << biorritmo_baja_s << std::endl;
+        //getline(ip, biorritmo_media_s, ';');
+        //getline(ip, biorritmo_alta_s, ';');
+
+        getline(ip, salud_baja_s, ';');
+        getline(ip, salud_media_s, ';');
+        getline(ip, salud_alta_s, ';');
+        //getline(ip, desempeno_baja_s, ';');
+        //getline(ip, desempeno_media_s, ';');
+        //getline(ip, desempeno_alta_s, ';');
+        getline(ip, temperamento_baja_s, ';');
+        getline(ip, temperamento_alta_s, ';');
+        //getline(ip, madurezEmocional_baja_s, ';');
+        //getline(ip, madurezEmocional_alta_s, ';');
+        //getline(ip, companerismo_baja_s, ';');
+        //getline(ip, companerismo_alta_s, ';');
+        //getline(ip, vision_media_s, ';');
+        //getline(ip, vision_alta_s, ';');
+        //getline(ip, liderazgo_baja_s, ';');
+        //getline(ip, liderazgo_alta_s, ';');
+        //std::cout << "liderazgo_alta_s: " << liderazgo_alta_s << std::endl;
+
+        getline(ip, clase, '\n'); //falta agregar en el csv
+        std::cout << "clase: " << clase << std::endl;
+
+        temp_polivalencia_baja = stod(polivalencia_baja_s);
+        temp_polivalencia_media = stod(polivalencia_media_s);
+        temp_polivalencia_alta = stod(polivalencia_alta_s);
+        temp_goleador_baja = stod(goleador_baja_s);
+        temp_goleador_media = stod(goleador_media_s);
+        temp_goleador_alta = stod(goleador_alta_s);
+        //temp_concentracionPartidosRelevantes_baja = stod(concentracionPartidosRelevantes_baja_s);
+        //temp_concentracionPartidosRelevantes_alta = stod(concentracionPartidosRelevantes_alta_s);
+        temp_experiencia_baja = stod(experiencia_baja_s);
+        temp_experiencia_media = stod(experiencia_media_s);
+        temp_experiencia_alta = stod(experiencia_alta_s);
+        //temp_garra_baja = stod(garra_baja_s);
+        //temp_garra_alta = stod(garra_alta_s);
+        //temp_biorritmo_baja = stod(biorritmo_baja_s);
+        //temp_biorritmo_media = stod(biorritmo_media_s);
+        //temp_biorritmo_alta = stod(biorritmo_alta_s);
+
+        temp_salud_baja = stod(salud_baja_s);
+        temp_salud_media = stod(salud_media_s);
+        temp_salud_alta = stod(salud_alta_s);
+        //temp_desempeno_baja = stod(desempeno_baja_s);
+        //temp_desempeno_media = stod(desempeno_media_s);
+        //temp_desempeno_alta = stod(desempeno_alta_s);
+        temp_temperamento_baja = stod(temperamento_baja_s);
+        temp_temperamento_alta = stod(temperamento_alta_s);
+        //temp_madurezEmocional_baja = stod(madurezEmocional_baja_s);
+        //temp_madurezEmocional_alta = stod(madurezEmocional_alta_s);
+        //temp_companerismo_baja = stod(companerismo_baja_s);
+        //temp_companerismo_alta = stod(companerismo_alta_s);
+        //temp_vision_media = stod(vision_media_s);
+        //temp_vision_alta = stod(vision_alta_s);
+        //temp_liderazgo_baja = stod(liderazgo_baja_s);
+        //temp_liderazgo_alta = stod(liderazgo_alta_s);
+
+        //---------
+        // Elemento
+        //---------
+        elemento.setNombre(nombre);
+        elemento.setClase(clase);
+        //Polivalencia
+        fuzzyTypes = { {"baja",temp_polivalencia_baja}, {"media",temp_polivalencia_media}, {"alta",temp_polivalencia_alta} };
+        elemento.setValoresDifusos(AtributoDifuso("Polivalencia", fuzzyTypes));
+        //Goleador
+        fuzzyTypes = { {"baja",temp_goleador_baja}, {"media",temp_goleador_media}, {"alta",temp_goleador_alta} };
+        elemento.setValoresDifusos(AtributoDifuso("Goleador", fuzzyTypes));
+        //ConcentracionPartidosRelevantes
+        //fuzzyTypes = { {"baja",temp_concentracionPartidosRelevantes_baja}, {"alta",temp_concentracionPartidosRelevantes_alta} };
+        //elemento.setValoresDifusos(AtributoDifuso("ConcentracionPartidosRelevantes", fuzzyTypes));
+        //Experiencia
+
+        fuzzyTypes = { {"baja",temp_experiencia_baja}, {"media",temp_experiencia_media}, {"alta",temp_experiencia_alta} };
+        elemento.setValoresDifusos(AtributoDifuso("Experiencia", fuzzyTypes));
+        //Garra
+        //fuzzyTypes = { {"baja",temp_garra_baja}, {"alta",temp_garra_alta} };
+        //elemento.setValoresDifusos(AtributoDifuso("Garra", fuzzyTypes));
+        //Biorritmo
+        //fuzzyTypes = { {"baja",temp_biorritmo_baja}, {"media",temp_biorritmo_media}, {"alta",temp_biorritmo_alta} };
+        //elemento.setValoresDifusos(AtributoDifuso("Biorritmo", fuzzyTypes));
+
+        //Salud
+        fuzzyTypes = { {"baja",temp_salud_baja}, {"media",temp_salud_media}, {"alta",temp_salud_alta} };
+        elemento.setValoresDifusos(AtributoDifuso("Salud", fuzzyTypes));
+        //Desempeno
+        //fuzzyTypes = { {"baja",temp_desempeno_baja}, {"media",temp_desempeno_media}, {"alta",temp_desempeno_alta} };
+        //elemento.setValoresDifusos(AtributoDifuso("Desempeno", fuzzyTypes));
+        //Temperamento
+        fuzzyTypes = { {"baja",temp_temperamento_baja}, {"alta",temp_temperamento_alta} };
+        elemento.setValoresDifusos(AtributoDifuso("Temperamento", fuzzyTypes));
+        //MadurezEmocional
+        //fuzzyTypes = { {"baja",temp_madurezEmocional_baja}, {"alta",temp_madurezEmocional_alta} };
+        //elemento.setValoresDifusos(AtributoDifuso("MadurezEmocional", fuzzyTypes));
+        //Companerismo
+        //fuzzyTypes = { {"baja",temp_companerismo_baja}, {"alta",temp_companerismo_alta} };
+        //elemento.setValoresDifusos(AtributoDifuso("Companerismo", fuzzyTypes));
+        //Vision
+        //fuzzyTypes = { {"baja",temp_vision_media}, {"alta",temp_vision_alta} };
+        //elemento.setValoresDifusos(AtributoDifuso("Vision", fuzzyTypes));
+        //objetoFID3.agregaElemento(elemento);
+        //Liderazgo
+        //fuzzyTypes = { {"baja",temp_liderazgo_baja}, {"alta",temp_liderazgo_alta} };
+        //lemento.setValoresDifusos(AtributoDifuso("Liderazgo", fuzzyTypes));
+
+        objetoFID3.agregaElemento(elemento);
+
+        elemento.clear();
+        //std::cout << "--------------" << std::endl;
+        c++;
+    }
+    ip.close();
+
+    //--------------------------------------------------------------------------
+    // Genera arbol FID3 (con los datos de entrenamiento previamente ingresados)
+    //--------------------------------------------------------------------------
+
+    objetoFID3.generaArbolFID3(); //lo crea en memoria principal
+
+    //----------------------------------------------------------------------
+    // Clasificacion del arbol
+    //----------------------------------------------------------------------
+    //Fuzzificar atributos de equipo 
+    ManipuladorArchivos archivo2 = ManipuladorArchivos("LaSerena.csv");
+    archivo2.leerArchivo("DataFuzzySerena.csv");
+    // 
+
+    // ACA DEBERIA CREAR EL VECTOR JUGADORES A PARTIR DE UN JUGADORES.CSV
+    // ---------------------------------------------------------------
+    std::vector<Elemento> Jugadores;
+    Elemento elemento_c = Elemento();
+    // Archivo de lectura
+
+    std::ifstream ip2("DataFuzzySerena.csv"); //Coquimbo.csv
+    //std::ifstream ip2("LaSerena.csv"); //LaSerena.csv
+    if (!ip2.is_open()) std::cout << "ERROR: No se pudo abrir el archivo" << std::endl;
+
+    c = 0;
+    std::string nombres;
+    while (ip2.good() && c < 22)
+    {
+
+        getline(ip2, nombres, ';');
+        getline(ip2, polivalencia_baja_s, ';');
+        std::cout << "polivalencia_baja_s: " << polivalencia_baja_s << std::endl;
+        getline(ip2, polivalencia_media_s, ';');
+        std::cout << "polivalencia_media_s: " << polivalencia_media_s << std::endl;
+        getline(ip2, polivalencia_alta_s, ';');
+        std::cout << "polivalencia_alta_s: " << polivalencia_alta_s << std::endl;
+        getline(ip2, goleador_baja_s, ';');
+        std::cout << "goleador_baja_s: " << goleador_baja_s << std::endl;
+        getline(ip2, goleador_media_s, ';');
+        std::cout << "goleador_media_s: " << goleador_media_s << std::endl;
+        getline(ip2, goleador_alta_s, ';');
+        std::cout << "goleador_alta_s: " << goleador_alta_s << std::endl;
+        //getline(ip2, concentracionPartidosRelevantes_baja_s, ';');
+        //std::cout << "concentracionPartidosRelevantes_baja_s: " << concentracionPartidosRelevantes_baja_s << std::endl;
+        //getline(ip2, concentracionPartidosRelevantes_alta_s, ';');
+        //std::cout << "concentracionPartidosRelevantes_alta_s: " << concentracionPartidosRelevantes_alta_s << std::endl;
+        getline(ip2, experiencia_baja_s, ';');
+        std::cout << "experiencia_baja_s: " << experiencia_baja_s << std::endl;
+        getline(ip2, experiencia_media_s, ';');
+        std::cout << "experiencia_media_s: " << experiencia_media_s << std::endl;
+        getline(ip2, experiencia_alta_s, ';');
+        std::cout << "experiencia_alta_s: " << experiencia_alta_s << std::endl;
+        //getline(ip2, garra_baja_s, ';');
+        //std::cout << "garra_baja_s: " << garra_baja_s << std::endl;
+        //getline(ip2, garra_alta_s, ';');
+        //std::cout << "garra_alta_s: " << garra_alta_s << std::endl;
+        //getline(ip2, biorritmo_baja_s, ';');
+        //std::cout << "biorritmo_baja_s: " << biorritmo_baja_s << std::endl;
+        //getline(ip2, biorritmo_media_s, ';');
+        //getline(ip2, biorritmo_alta_s, ';');
+
+        getline(ip2, salud_baja_s, ';');
+        getline(ip2, salud_media_s, ';');
+        getline(ip2, salud_alta_s, ';');
+        //getline(ip2, desempeno_baja_s, ';');
+        //getline(ip2, desempeno_media_s, ';');
+        //getline(ip2, desempeno_alta_s, ';');
+        getline(ip2, temperamento_alta_s, ';');
+        getline(ip2, temperamento_baja_s, ';');
+        //getline(ip2, madurezEmocional_baja_s, ';');
+        //getline(ip2, madurezEmocional_alta_s, ';');
+        //getline(ip2, companerismo_baja_s, ';');
+        //getline(ip2, companerismo_alta_s, ';');
+        //std::cout << "COQUIMBO companerismo_alta_s: " << companerismo_alta_s << std::endl;
+        //getline(ip2, vision_media_s, ';');
+        //std::cout << "COQUIMBO vision_media_s: " << vision_media_s << std::endl;
+        //getline(ip2, vision_alta_s, ';');
+        //std::cout << "COQUIMBO vision_alta_s: " << vision_alta_s << std::endl;
+        //getline(ip2, liderazgo_baja_s, ';');
+        //std::cout << "COQUIMBO liderazgo_baja_s: " << liderazgo_baja_s << std::endl;
+        //getline(ip2, liderazgo_alta_s, ';');
+        //std::cout << "COQUIMBO liderazgo_alta_s: " << liderazgo_alta_s << std::endl;
+
+
+        getline(ip2, clase, '\n'); //falta agregar en el csv
+        //std::cout << "clase: " << clase << std::endl;
+
+        temp_polivalencia_baja = stod(polivalencia_baja_s);
+        temp_polivalencia_media = stod(polivalencia_media_s);
+        temp_polivalencia_alta = stod(polivalencia_alta_s);
+        temp_goleador_baja = stod(goleador_baja_s);
+        temp_goleador_media = stod(goleador_media_s);
+        temp_goleador_alta = stod(goleador_alta_s);
+        //temp_concentracionPartidosRelevantes_baja = stod(concentracionPartidosRelevantes_baja_s);
+        //temp_concentracionPartidosRelevantes_alta = stod(concentracionPartidosRelevantes_alta_s);
+        temp_experiencia_baja = stod(experiencia_baja_s);
+        temp_experiencia_media = stod(experiencia_media_s);
+        temp_experiencia_alta = stod(experiencia_alta_s);
+        //temp_garra_baja = stod(garra_baja_s);
+        //temp_garra_alta = stod(garra_alta_s);
+        //temp_biorritmo_baja = stod(biorritmo_baja_s);
+        //temp_biorritmo_media = stod(biorritmo_media_s);
+        //temp_biorritmo_alta = stod(biorritmo_alta_s);
+
+        temp_salud_baja = stod(salud_baja_s);
+        temp_salud_media = stod(salud_media_s);
+        temp_salud_alta = stod(salud_alta_s);
+        //temp_desempeno_baja = stod(desempeno_baja_s);
+        //temp_desempeno_media = stod(desempeno_media_s);
+        //temp_desempeno_alta = stod(desempeno_alta_s);
+        temp_temperamento_baja = stod(temperamento_baja_s);
+        temp_temperamento_alta = stod(temperamento_alta_s);
+        //temp_madurezEmocional_baja = stod(madurezEmocional_baja_s);
+        //temp_madurezEmocional_alta = stod(madurezEmocional_alta_s);
+        //temp_companerismo_baja = stod(companerismo_baja_s);
+        //temp_companerismo_alta = stod(companerismo_alta_s);
+        //temp_vision_media = stod(vision_media_s);
+        //temp_vision_alta = stod(vision_alta_s);
+        //temp_liderazgo_baja = stod(liderazgo_baja_s);
+        //temp_liderazgo_alta = stod(liderazgo_alta_s);
+
+        //---------
+        // Elemento
+        //---------
+        elemento_c.setClase(clase);
+        elemento_c.setNombre(nombres);
+        //Polivalencia
+        fuzzyTypes = { {"baja",temp_polivalencia_baja}, {"media",temp_polivalencia_media}, {"alta",temp_polivalencia_alta} };
+        elemento_c.setValoresDifusos(AtributoDifuso("Polivalencia", fuzzyTypes));
+        //Goleador
+        fuzzyTypes = { {"baja",temp_goleador_baja}, {"media",temp_goleador_media}, {"alta",temp_goleador_alta} };
+        elemento_c.setValoresDifusos(AtributoDifuso("Goleador", fuzzyTypes));
+        //ConcentracionPartidosRelevantes
+        //fuzzyTypes = { {"baja",temp_concentracionPartidosRelevantes_baja}, {"alta",temp_concentracionPartidosRelevantes_alta} };
+        //elemento_c.setValoresDifusos(AtributoDifuso("ConcentracionPartidosRelevantes", fuzzyTypes));
+        //Experiencia
+        fuzzyTypes = { {"baja",temp_experiencia_baja}, {"media",temp_experiencia_media}, {"alta",temp_experiencia_alta} };
+        elemento_c.setValoresDifusos(AtributoDifuso("Experiencia", fuzzyTypes));
+        //Garra
+        //fuzzyTypes = { {"baja",temp_garra_baja}, {"alta",temp_garra_alta} };
+        //elemento_c.setValoresDifusos(AtributoDifuso("Garra", fuzzyTypes));
+        //Biorritmo
+        //fuzzyTypes = { {"baja",temp_biorritmo_baja}, {"media",temp_biorritmo_media}, {"alta",temp_biorritmo_alta} };
+        //elemento_c.setValoresDifusos(AtributoDifuso("Biorritmo", fuzzyTypes));
+        //Salud
+        fuzzyTypes = { {"baja",temp_salud_baja}, {"media",temp_salud_media}, {"alta",temp_salud_alta} };
+        elemento_c.setValoresDifusos(AtributoDifuso("Salud", fuzzyTypes));
+        //Desempeno
+        //fuzzyTypes = { {"baja",temp_desempeno_baja}, {"media",temp_desempeno_media}, {"alta",temp_desempeno_alta} };
+        //elemento_c.setValoresDifusos(AtributoDifuso("Desempeno", fuzzyTypes));
+        //Temperamento
+        fuzzyTypes = { {"baja",temp_temperamento_baja}, {"alta",temp_temperamento_alta} };
+        elemento_c.setValoresDifusos(AtributoDifuso("Temperamento", fuzzyTypes));
+        //MadurezEmocional
+        //fuzzyTypes = { {"baja",temp_madurezEmocional_baja}, {"alta",temp_madurezEmocional_alta} };
+        //elemento_c.setValoresDifusos(AtributoDifuso("MadurezEmocional", fuzzyTypes));
+        //Companerismo
+        //fuzzyTypes = { {"baja",temp_companerismo_baja}, {"alta",temp_companerismo_alta} };
+        //elemento_c.setValoresDifusos(AtributoDifuso("Companerismo", fuzzyTypes));
+        //Vision
+        //fuzzyTypes = { {"baja",temp_vision_media}, {"alta",temp_vision_alta} };
+        //elemento_c.setValoresDifusos(AtributoDifuso("Vision", fuzzyTypes));
+        //objetoFID3.agregaElemento(elemento_c);
+        //Liderazgo
+        //fuzzyTypes = { {"baja",temp_liderazgo_baja}, {"alta",temp_liderazgo_alta} };
+        //elemento_c.setValoresDifusos(AtributoDifuso("Liderazgo", fuzzyTypes));
+        //objetoFID3.agregaElemento(elemento_c);
+
+        Jugadores.insert(Jugadores.end(), elemento_c);
+
+        elemento_c.clear();
+        c++;
+        //std::cout << "--------------" << std::endl;
+
+    }
+    ip2.close();
+
+    // Archivo de salida
+    std::ofstream op3;
+    op3.open("JugadoresSerena.csv"); // 
+    for (int i = 0; i < Jugadores.size(); i++) {
+
+        for (int j = 0; j < objetoFID3.getClases().size(); j++) {
+            //std::cout << objetoFID3.getClases()[j] << std::endl;
+            Jugadores[i].setClases(objetoFID3.getClases()[j], 0);
+        }
+        // Se clasifica a cada jugador
+        objetoFID3.recorreArbolFID3(&(Jugadores[i]));
+        // Se escribe en el archivo de salida op
+
+        op3 << Jugadores[i].imprimir(objetoFID3.getClases()) << std::endl;
+        //op3 << std::to_string(i) << std::endl;
+
+    }
+
+
+    op3.close();
+    std::cout << "Libreria FID3" << std::endl;
+
+    return(0);
+}

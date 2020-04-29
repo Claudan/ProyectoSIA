@@ -99,6 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)/FID3Lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +139,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArbolDin.h" />
+    <ClInclude Include="AtributoDifuso.h" />
+    <ClInclude Include="Elemento.h" />
+    <ClInclude Include="FID3.h" />
+    <ClInclude Include="FID3Lib.h" />
+    <ClInclude Include="Fuzzificador.h" />
+    <ClInclude Include="ManipuladorArchivos.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AtributoDifuso.cpp" />
+    <ClCompile Include="Elemento.cpp" />
+    <ClCompile Include="FID3.cpp" />
+    <ClCompile Include="Fuzzificador.cpp" />
+    <ClCompile Include="ManipuladorArchivos.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
