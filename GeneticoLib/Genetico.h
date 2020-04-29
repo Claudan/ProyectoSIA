@@ -13,7 +13,7 @@ namespace GeneticoLib {
 
 	std::vector<Formacion> Genetico(Plantel p, int* rol, char modo, std::string forTecnica, int porcentajemutacion, int generacionespermitidas, int cantidadpoblacion) {
 
-		float diferencia = 0.000001f;
+		
 
 		std::vector<Formacion> soluciones;
 		Formacion f, hijo1, hijo2;
@@ -40,7 +40,9 @@ namespace GeneticoLib {
 		//Ambas condiciones de termino, deber�amos elegir una sola?
 		//hasta que las mejores 2 soluciones convergan a un valor
 		//o hasta que se alcance una cantidad de generaciones permitidas.
-		while (soluciones.at(0).getCalculoFitness() - soluciones.at(1).getCalculoFitness() > diferencia&& generaciones < generacionespermitidas) {
+		float diferencia = 0.000001f;
+		//while (soluciones.at(0).getCalculoFitness() - soluciones.at(3).getCalculoFitness() > diferencia && generaciones < generacionespermitidas) {
+		while (soluciones.at(0).getCalculoFitness() - soluciones.at(3).getCalculoFitness() > diferencia && generaciones < generacionespermitidas) {
 			while (random1 == random2) {
 				//Selecciona los padres del nuevo hijo al azar, estilo torneo.
 				//Siempre distintos!!!!
@@ -77,7 +79,8 @@ namespace GeneticoLib {
 			ordenar = false;
 
 			//std::cout << "Generacion: " << generaciones + 1 << "/"<<generacionespermitidas <<"\n";
-			std::cout << "Calculando formaciones: " << (int)((generaciones + 1)*100 / generacionespermitidas) << "%\n";
+			//std::cout << "Calculando formaciones: " << (int)((generaciones + 1)*100 / generacionespermitidas) << "%"<<'\r';
+			std::cout << (int)((generaciones + 1) * 100 / generacionespermitidas) << "%" << '\r';
 			generaciones++;
 			//getchar();
 		}

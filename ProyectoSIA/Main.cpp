@@ -114,8 +114,8 @@ int mainIdealPrototipoSIA() {
     archivo.close();
 
     //Ahora es el algoritmo genetico.
-    
-    
+
+    //Estas rutas deberían modificarse cuando se pregunta arriba!!!
     string rutaarchivoplantel = "..\\Polivalencia_coquimbo.csv";
     string rutasinergias = "..\\sinergiaCoquimbo.txt";
     Plantel plantel;
@@ -124,12 +124,11 @@ int mainIdealPrototipoSIA() {
     int* rol = devolverRoles(rutaRoles);
     char modo = devolverModo(rutaRoles);
     vector<Formacion> sol;
-    cout << "Generando formaciones de jugadores optimizadas para enfrentar al rival." << endl << endl <<"...";
+    cout << "Generando formaciones de jugadores optimizadas para enfrentar al rival." << endl;
     //nombrearchivoplantel, roljugadores, porcentajemutacion, iteraciones, poblacion,porcentaje mutacion, de 0 a 100,cantidad generaciones maxima,tamano poblacion
     sol = Genetico(plantel, rol, modo, forTactica, 40, 5000, 20);
-    //for (int i = 0; i < sol.size(); i++) sol.at(i).ImprimirFormacion();
+    cout << endl<<endl;
     entregarResultados(plantel, sol, rol, forTactica, true, "..\\outputformaciones.txt");
-
     return(0);
 }
 
