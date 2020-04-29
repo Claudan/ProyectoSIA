@@ -31,7 +31,7 @@ namespace GeneticoLib {
 			"Extremo izquierdo / EI",
 			"Extremo derecho / ED" };
 
-		if (i < 15 && i > 0) return roles[i - 2];
+		if (i < 15 && i > 0) return roles[i - 1];
 		else return "Rol desconocido";
 	}
 
