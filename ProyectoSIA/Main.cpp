@@ -202,7 +202,7 @@ int mainIdealPrototipoSIA() {
         if (letramodo == 'A') modopalabra = "Ataque";
         cout << "Seleccionado: " << solucionesexp[seleccion][0] << " " << modopalabra << endl;
     }
-
+    cout << endl;
     ofstream archivo;
     string rutaRoles = "..\\formacionprueba.txt";
     archivo.open(rutaRoles);
@@ -222,6 +222,10 @@ int mainIdealPrototipoSIA() {
     sol = Genetico(plantel, rol, modo, forTactica, 40, 5000, 20);
     cout << endl<<endl;
     entregarResultados(plantel, sol, rol, forTactica, true, "..\\outputformaciones.txt");
+    //remove(rutaRoles);
+    cout << endl << "Presione ENTER para salir...";
+    getchar();
+    getchar();
     return(0);
 }
 
