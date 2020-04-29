@@ -42,7 +42,7 @@ namespace GeneticoLib {
 		//o hasta que se alcance una cantidad de generaciones permitidas.
 		float diferencia = 0.000001f;
 		//while (soluciones.at(0).getCalculoFitness() - soluciones.at(3).getCalculoFitness() > diferencia && generaciones < generacionespermitidas) {
-		while (soluciones.at(0).getCalculoFitness() - soluciones.at(3).getCalculoFitness() > diferencia && generaciones < generacionespermitidas) {
+		while (generaciones < generacionespermitidas) {
 			while (random1 == random2) {
 				//Selecciona los padres del nuevo hijo al azar, estilo torneo.
 				//Siempre distintos!!!!

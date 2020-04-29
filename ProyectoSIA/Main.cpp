@@ -22,22 +22,53 @@ int main()
 
 int mainIdealPrototipoSIA() {
     string rutaequipo;
+    string rutaarchivoplantel="..\\Polivalencia_coquimbo.csv";;
+    string rutasinergias= "..\\sinergiaCoquimbo.txt";
+
     int seleccion = 0;
+    int equipo = -1;
     while (seleccion !=1 && seleccion != 2) { //Esto es parte del id3
         cout << "Seleccione equipo propio (1 o 2):" << endl;
         cout << "\t1.-Club Deportes La Serena"<<endl;
         cout << "\t2.-Club Deportes Coquimbo Unido" << endl<<"\t";
         cin >> seleccion;
-        if (seleccion == 1) rutaequipo = ""; //TO-DO
-        else if (seleccion == 2) rutaequipo = "";//TO-DO
+        if (seleccion == 1) {
+            rutaarchivoplantel = "..\\Polivalencia_serena.csv";
+            rutasinergias = "..\\sinergiaSerena.txt";
+            equipo = 1;
+        }
+        else if (seleccion == 2)
+        {
+            rutaarchivoplantel = "..\\Polivalencia_coquimbo.csv";
+            rutasinergias = "..\\sinergiaCoquimbo.txt";
+            equipo = 2;
+        }
         else cout << "Opcion no valida. Ingreselo nuevamente." << endl<<endl;
     }
     cout << seleccion;
-    //Codigo para generar la polivalencia!!!
-    // cout<<"Analizando equipo.<<endl;
-    //Aquí se debe definir la ruta de salida de la polivalencia de serena o coquimbo
-    //para pasarla al genetico.
 
+    seleccion = 0;
+    while (seleccion != 1 && seleccion != 2) { //Esto es parte del id3
+        cout << "Desea recalcular los atributos de jugadores?" << endl;
+        cout << "\t1.-No." << endl;
+        cout << "\t2.-Si." << endl << "\t";
+        cin >> seleccion;
+        if (seleccion == 1) {
+            //algo.
+        }
+        else if (seleccion == 2)
+        {
+            //ID3 acá. NO SOBREESCRIBIR LOS ARCHIVOS DE RUTAARCHIVOPLANTEL!!!!!!!!!
+            //Crear un polivalencia nuevo y asignar el rutaarchivoplantel al archivo creado.
+            if (equipo == 1) {
+                //Sacar la polivalencia de serena.
+            }
+            else if (equipo == 2) {
+                //Sacar la polivalencia de coquimbo.
+            }
+        }
+        else cout << "Opcion no valida. Ingreselo nuevamente." << endl << endl;
+    }
 
     //Ahora son cosas para el sistema experto
     string formacionrival;
@@ -116,8 +147,8 @@ int mainIdealPrototipoSIA() {
     //Ahora es el algoritmo genetico.
 
     //Estas rutas deberían modificarse cuando se pregunta arriba!!!
-    string rutaarchivoplantel = "..\\Polivalencia_coquimbo.csv";
-    string rutasinergias = "..\\sinergiaCoquimbo.txt";
+    rutaarchivoplantel = "..\\Polivalencia_coquimbo.csv";
+    rutasinergias = "..\\sinergiaCoquimbo.txt";
     Plantel plantel;
     plantel.cargarArchivo(rutaarchivoplantel, rutasinergias);
     string forTactica = devolverForTactica(rutaRoles);
