@@ -77,7 +77,7 @@ namespace GeneticoLib {
 			ordenar = false;
 
 			//std::cout << "Generacion: " << generaciones + 1 << "/"<<generacionespermitidas <<"\n";
-			std::cout << "Calculando formaciones: " << (int)((generaciones + 1) / generacionespermitidas) << "%%\n";
+			std::cout << "Calculando formaciones: " << (int)((generaciones + 1)*100 / generacionespermitidas) << "%\n";
 			generaciones++;
 			//getchar();
 		}
