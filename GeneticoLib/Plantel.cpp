@@ -37,8 +37,8 @@ namespace GeneticoLib {
 		FileSinergia.open(nombreArchivo);
 		if (!FileSinergia)
 		{
-			std::cout << "No se pudo abrir el archivo de sinergias.";
-			exit(1); // terminate with error
+			std::cout << "No se pudo abrir el archivo de sinergias" << nombreArchivo;
+			exit(1);
 		}
 		std::string token;
 		std::vector<int> malaSinergia;
@@ -75,7 +75,7 @@ namespace GeneticoLib {
 		FileSinergia.open(nombreArchivo);
 		if (!FileSinergia)
 		{
-			std::cout << "No se pudo abrir el archivo de sinergias.";
+			std::cout << "No se pudo abrir el archivo de sinergias"<< nombreArchivo<<std::endl;
 			exit(1); // terminate with error
 		}
 		std::string token;
@@ -114,7 +114,7 @@ namespace GeneticoLib {
 		FilePolivalencia.open(nombrePolivalencia);
 		if (!FilePolivalencia)
 		{
-			std::cout << "No se pudo abrir uno de los archivos.";
+			std::cout << "No se pudo abrir el archivo de polivalencia "<<nombrePolivalencia<<std::endl;
 			exit(1); // terminate with error
 		}
 

@@ -25,8 +25,15 @@ int main()
 
 int mainIdealPrototipoSIA() {
     string rutaequipo;
-    string rutaarchivoplantel="..\\Polivalencia_coquimbo.csv";;
-    string rutasinergias= "..\\sinergiaCoquimbo.txt";
+    string rutaarchivoplantel;
+    string rutasinergias;
+    string polivalenciaserena = "..\\Polivalencia_serena.csv";
+    string sinergiaserena = "..\\sinergiaSerena.txt";
+    string polivalenciacoquimbo = "..\\Polivalencia_coquimbo.csv";
+    string sinergiacoquimbo = "..\\sinergiaCoquimbo.txt";
+    
+    string rutaRoles = "formacionprueba.txt";
+    string salidatxt = "mejores_formaciones.txt";
 
     int seleccion = 0;
     int equipo = 0;
@@ -36,13 +43,14 @@ int mainIdealPrototipoSIA() {
         cout << "\t2.-Club Deportes Coquimbo Unido" << endl<<"\t";
         cin >> seleccion;
         if (seleccion == 1) {
-            rutaarchivoplantel = "..\\Polivalencia_serena.csv";
-            rutasinergias = "..\\sinergiaSerena.txt";
+            rutaarchivoplantel = polivalenciaserena;
+            rutasinergias = sinergiaserena;
+
             equipo = 1;
         }
         else if (seleccion == 2) {
-            rutaarchivoplantel = "..\\Polivalencia_coquimbo.csv";
-            rutasinergias = "..\\sinergiaCoquimbo.txt";
+            rutaarchivoplantel = polivalenciacoquimbo;
+            rutasinergias = sinergiacoquimbo;
             equipo = 2;
         }
         else cout << "Opcion no valida. Ingreselo nuevamente." << endl<<endl;
@@ -204,7 +212,6 @@ int mainIdealPrototipoSIA() {
     }
     cout << endl;
     ofstream archivo;
-    string rutaRoles = "..\\formacionprueba.txt";
     archivo.open(rutaRoles);
     archivo << linea;
     archivo.close();
@@ -221,8 +228,8 @@ int mainIdealPrototipoSIA() {
     //nombrearchivoplantel, roljugadores, porcentajemutacion, iteraciones, poblacion,porcentaje mutacion, de 0 a 100,cantidad generaciones maxima,tamano poblacion
     sol = Genetico(plantel, rol, modo, forTactica, 40, 5000, 20);
     cout << endl<<endl;
-    entregarResultados(plantel, sol, rol, forTactica, true, "..\\outputformaciones.txt");
-    //remove(rutaRoles);
+    entregarResultados(plantel, sol, rol, forTactica, true, salidatxt);
+    remove(rutaRoles.c_str());
     cout << endl << "Presione ENTER para salir...";
     getchar();
     getchar();
