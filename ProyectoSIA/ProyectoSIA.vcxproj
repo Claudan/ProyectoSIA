@@ -143,6 +143,9 @@
     <ProjectReference Include="..\ExpertoLib\ExpertoLib.vcxproj">
       <Project>{bab51446-6f6c-40d9-a513-d6383f0dc862}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\FID3Lib\FID3Lib.vcxproj">
+      <Project>{27e44ce6-75ba-4bbe-ad53-1fb3be1e99d5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GeneticoLib\GeneticoLib.vcxproj">
       <Project>{60884afd-fdd7-452f-ba99-bb5703044c58}</Project>
     </ProjectReference>

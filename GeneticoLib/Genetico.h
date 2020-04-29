@@ -40,9 +40,9 @@ namespace GeneticoLib {
 		//Ambas condiciones de termino, deber�amos elegir una sola?
 		//hasta que las mejores 2 soluciones convergan a un valor
 		//o hasta que se alcance una cantidad de generaciones permitidas.
-		float diferencia = 0.000001f;
-		//while (soluciones.at(0).getCalculoFitness() - soluciones.at(3).getCalculoFitness() > diferencia && generaciones < generacionespermitidas) {
-		while (generaciones < generacionespermitidas) {
+		float diferencia = 0.001f;
+		while (soluciones.at(0).getCalculoFitness() - soluciones.at(2).getCalculoFitness() > diferencia && generaciones < generacionespermitidas) {
+		//while (generaciones < generacionespermitidas) {
 			while (random1 == random2) {
 				//Selecciona los padres del nuevo hijo al azar, estilo torneo.
 				//Siempre distintos!!!!

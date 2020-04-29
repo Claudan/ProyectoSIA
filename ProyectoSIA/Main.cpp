@@ -29,8 +29,8 @@ int mainIdealPrototipoSIA() {
     string rutasinergias= "..\\sinergiaCoquimbo.txt";
 
     int seleccion = 0;
-    int equipo = -1;
-    while (seleccion !=1 && seleccion != 2) { //Esto es parte del id3
+    int equipo = 0;
+    while (seleccion !=1 && seleccion != 2) {
         cout << "Seleccione equipo propio (1 o 2):" << endl;
         cout << "\t1.-Club Deportes La Serena"<<endl;
         cout << "\t2.-Club Deportes Coquimbo Unido" << endl<<"\t";
@@ -40,19 +40,18 @@ int mainIdealPrototipoSIA() {
             rutasinergias = "..\\sinergiaSerena.txt";
             equipo = 1;
         }
-        else if (seleccion == 2)
-        {
+        else if (seleccion == 2) {
             rutaarchivoplantel = "..\\Polivalencia_coquimbo.csv";
             rutasinergias = "..\\sinergiaCoquimbo.txt";
             equipo = 2;
         }
         else cout << "Opcion no valida. Ingreselo nuevamente." << endl<<endl;
     }
-    cout << seleccion;
+    cout <<endl;
 
     seleccion = 0;
-    while (seleccion != 1 && seleccion != 2) { //Esto es parte del id3
-        cout << "Desea recalcular los atributos de jugadores?" << endl;
+    while (seleccion != 1 && seleccion != 2) {
+        cout << "Desea recalcular las polivalencias de los jugadores?" << endl;
         cout << "\t1.-No." << endl;
         cout << "\t2.-Si." << endl << "\t";
         cin >> seleccion;
@@ -61,6 +60,7 @@ int mainIdealPrototipoSIA() {
         }
         else if (seleccion == 2)
         {
+            cout <<"Recalculando polivalencia de los jugadores.(Pendiente)"<<endl;
             //ID3 acá. NO SOBREESCRIBIR LOS ARCHIVOS DE RUTAARCHIVOPLANTEL!!!!!!!!!
             //Crear un polivalencia nuevo y asignar el rutaarchivoplantel al archivo creado.
             if (equipo == 1) {
@@ -72,62 +72,118 @@ int mainIdealPrototipoSIA() {
         }
         else cout << "Opcion no valida. Ingreselo nuevamente." << endl << endl;
     }
+    cout << endl;
 
     //Ahora son cosas para el sistema experto
     string formacionrival;
-    cout << "Ingrese la formacion del equipo rival, indicando con numeros la cantidad de jugadores por linea y separados por guion. (Ej: 4-3-3 , 5-3-2)" << endl;
+    cout << "Ingrese la formacion del EQUIPO RIVAL, indicando con numeros la cantidad de jugadores por linea y separados por guion. (Ej: 4-3-3 , 5-3-2)" << endl<<"\t";
     cin >> formacionrival;
     seleccion = 0;
-    
-    string estrategiarival;
+    cout << endl;
+
+    string estrategiapropia;
     while (seleccion < 1 || seleccion > 3) {
-        cout << "Cual es la estrategia del equipo rival? Escriba un numero:" << endl;
+        cout << "Cual es la estrategia que quiere utilizar en SU equipo? Escriba un numero:" << endl;
         cout << "\t1.-Ofensiva" << endl;
         cout << "\t2.-Defensiva" << endl;
         cout << "\t3.-Balanceada" << endl;
         cout << "\t";
         cin >> seleccion;
-        if (seleccion == 1) estrategiarival = "Ofensiva";
-        else if (seleccion == 2) estrategiarival = "Defensiva";
-        else if (seleccion == 3) estrategiarival = "Balanceada";
+        if (seleccion == 1) estrategiapropia = "Ofensiva";
+        else if (seleccion == 2) estrategiapropia = "Defensiva";
+        else if (seleccion == 3) estrategiapropia = "Balanceada";
         else cout << "Opcion no valida. Ingreselo nuevamente." << endl;
     }
-    cout << "Seleccionado: " << estrategiarival << endl<<endl;
+    cout << "Seleccionado: " << estrategiapropia << endl<<endl;
     seleccion = 0;
-    string modojuegorival;
+    string modojuegopropio;
     while (seleccion < 1 || seleccion > 3) {
-        cout << "Cual es la forma de juego del equipo rival? Elija uno de los siguientes valores:" << endl;
+        cout << "Cual es la forma de juego que utilizara en su equipo? Elija uno de los siguientes valores:" << endl;
         cout << "\t1.-Atacar" << endl;
         cout << "\t2.-Contraataque" << endl;
         cout << "\t3.-Posesion" << endl;
         cout << "\t";
         cin >> seleccion;
-        if (seleccion == 1) modojuegorival = "Atacar";
-        else if (seleccion == 2) modojuegorival = "Contraataque";
-        else if (seleccion == 3) modojuegorival = "Posesion";
+        if (seleccion == 1) modojuegopropio = "Atacar";
+        else if (seleccion == 2) modojuegopropio = "Contraataque";
+        else if (seleccion == 3) modojuegopropio = "Posesion";
         else cout << "Opcion no valida. Ingreselo nuevamente." << endl;
     }
-    cout << "Seleccionado: " << modojuegorival << endl<<endl;
+    cout << "Seleccionado: " << modojuegopropio << endl << endl;
+
+    seleccion = 0;
+    string estiloataquepropio;
+    while (seleccion < 1 || seleccion > 2) {
+        cout << "Que tipo de ataque prefiere utilizar? Elija uno de los siguientes valores:" << endl;
+        cout << "\t1.-Directo" << endl;
+        cout << "\t2.-Banda" << endl;
+        cout << "\t";
+        cin >> seleccion;
+        if (seleccion == 1) estiloataquepropio = "Directo";
+        else if (seleccion == 2) estiloataquepropio = "Banda";
+        else cout << "Opcion no valida. Ingreselo nuevamente." << endl;
+    }
+    cout << "Seleccionado: " << estiloataquepropio << endl << endl;
+
+
+    seleccion = 0;
+    string tipopases;
+    while (seleccion < 1 || seleccion > 2) {
+        cout << "Que tipo de pases desea utilizar mas? Elija uno de los siguientes valores:" << endl;
+        cout << "\t1.-Largos" << endl;
+        cout << "\t2.-Cortos" << endl;
+        cout << "\t";
+        cin >> seleccion;
+        if (seleccion == 1) tipopases = "Largo";
+        else if (seleccion == 2) tipopases = "Corto";
+        else cout << "Opcion no valida. Ingreselo nuevamente." << endl;
+    }
+
+    cout << "Seleccionado: " << tipopases << endl<<endl;
     cout<<"Calculando tipos de formaciones para enfrentar al rival."<<endl<<endl;
 
     Experto exp = conocimientoExpertoFIFA();
-    vector<string>inforival = { formacionrival, estrategiarival, modojuegorival};
+    vector<string>inforival = { formacionrival, estrategiapropia, modojuegopropio,estiloataquepropio, tipopases};
     vector<vector<string>> solucionesexp = exp.infiereTodasLasSolucionesBC(inforival);
 
     string linea;
     seleccion = 0;
     if (solucionesexp.size() == 0) {
-        cout << "No hay formaciones en la base de conocimiento que contrarresten al rival" << endl << endl;
-        cout << "Intentando con 4-3-3." << endl << endl; //Failsafe (?)
-        linea = linea + "433;" + "2,2,3,4,6,6,6,12,13,14;B";
+        cout << "No hay formaciones en la base de conocimiento que contrarresten al rival." << endl;
+        while (seleccion < 1 || seleccion >6) {
+            cout << "Seleccione la formacion que desea usar." << endl;
+            cout << "\t1.- 4-3-3 Balanceada"<<endl;
+            cout << "\t2.- 4-3-3 Ofensiva" << endl;
+            cout << "\t3.- 4-3-3 Defensiva" << endl;
+            cout << "\t4.- 5-3-2 Balanceada" << endl;
+            cout << "\t5.- 5-3-2 Ofensiva" << endl;
+            cout << "\t6.- 5-3-2 Defensiva" << endl;
+            cout << "\t";
+            cin >> seleccion;
+            if (seleccion == 1) linea = "433;2,2,3,4,6,6,6,12,13,14;B";
+            else if (seleccion == 2) linea = "433;2,2,3,4,6,6,6,12,13,14;O";
+            else if (seleccion == 3) linea = "433;2,2,3,4,6,6,6,12,13,14;D";
+            else if (seleccion == 4) linea = "532;2,2,2,6,6,6,9,10,12,12;B";
+            else if (seleccion == 5) linea = "532;2,2,2,6,6,6,9,10,12,12;O";
+            else if (seleccion == 6) linea = "532;2,2,2,6,6,6,9,10,12,12;D";
+            else if (seleccion<1 || seleccion>solucionesexp.size()) cout << "Opcion no valida. Ingreselo nuevamente." << endl;
+            else seleccion = 0;
+        }
+                                                                   
+        //cout << "Intentando con 4-3-3 Balanceada." << endl << endl; //Failsafe (?)
+        //linea = linea + "433;" + "2,2,3,4,6,6,6,12,13,14;B";
     }
     else {
         while (seleccion < 1 || seleccion > solucionesexp.size()) {
-            cout << "Seleccione la formación que desea usar." << endl;
+            cout << "Seleccione la formacion que desea usar." << endl;
             for (int i = 0; i < solucionesexp.size(); i++) {
                 cout << "\t" << i + 1 << ".-";
                 for (int j = 0; j < 1/* soluciones[i].size()*/; j++) {
                     cout << solucionesexp[i][j] << " ";
+                    if (solucionesexp[i][1].back() == 'O') cout << "Ofensiva";
+                    else if (solucionesexp[i][1].back() == 'B') cout << "Balanceada";
+                    else if (solucionesexp[i][1].back() == 'D') cout << "Defensiva";
+                    else if (solucionesexp[i][1].back() == 'A') cout << "Ataque";
                 }
                 cout << endl;
             }
@@ -138,9 +194,15 @@ int mainIdealPrototipoSIA() {
         seleccion--;
 
         linea = solucionesexp[seleccion][0] + ";" + solucionesexp[seleccion][1];
+        char letramodo = linea.back();
+        string modopalabra;
+        if (letramodo == 'O') modopalabra = "Ofensiva";
+        else if (letramodo == 'B') modopalabra = "Balanceada";
+        else if (letramodo == 'D') modopalabra = "Defensiva";
+        if (letramodo == 'A') modopalabra = "Ataque";
+        cout << "Seleccionado: " << solucionesexp[seleccion][0] << " " << modopalabra << endl;
     }
-    
-    cout <<"Seleccionado: "<< linea<<endl<<endl;
+
     ofstream archivo;
     string rutaRoles = "..\\formacionprueba.txt";
     archivo.open(rutaRoles);
@@ -148,17 +210,14 @@ int mainIdealPrototipoSIA() {
     archivo.close();
 
     //Ahora es el algoritmo genetico.
-
-    //Estas rutas deberían modificarse cuando se pregunta arriba!!!
-    rutaarchivoplantel = "..\\Polivalencia_coquimbo.csv";
-    rutasinergias = "..\\sinergiaCoquimbo.txt";
+    //cout << rutaarchivoplantel << " " << rutasinergias;
     Plantel plantel;
     plantel.cargarArchivo(rutaarchivoplantel, rutasinergias);
     string forTactica = devolverForTactica(rutaRoles);
     int* rol = devolverRoles(rutaRoles);
     char modo = devolverModo(rutaRoles);
     vector<Formacion> sol;
-    cout << "Generando formaciones de jugadores optimizadas para enfrentar al rival." << endl;
+    cout << "Generando formaciones de jugadores optimizadas para enfrentar al rival:" << endl;
     //nombrearchivoplantel, roljugadores, porcentajemutacion, iteraciones, poblacion,porcentaje mutacion, de 0 a 100,cantidad generaciones maxima,tamano poblacion
     sol = Genetico(plantel, rol, modo, forTactica, 40, 5000, 20);
     cout << endl<<endl;
