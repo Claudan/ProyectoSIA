@@ -28,7 +28,7 @@ namespace ExpertoLib {
 	{
 		std::vector<std::vector<std::string>> soluciones;
 		std::vector<std::string> parcial;
-		std::cout << "infiere todas las soluciones" << std::endl;
+		//std::cout << "infiere todas las soluciones" << std::endl;
 		for (unsigned int i = 0; i < raiz->hijo.size(); i++) {
 			if (esEstaConsecuenciaInput(raiz->hijo[i],input)) {
 				std::string valor = raiz->hijo[i]->valor;
@@ -41,10 +41,12 @@ namespace ExpertoLib {
 				parcial.clear();
 			}
 		}
+		/*
 		for (unsigned int i = 0; i < soluciones.size(); i++) {
 			std::cout << "solucion [" << i << "]: " << soluciones[i][0] << std::endl;
 			std::cout << "comentario [" << i << "]: " << soluciones[i][1] << std::endl;
 		}
+		*/
 		//infiereTodasLasSolucionesBC( std::vector<std::string> input)
 		return soluciones;
 	}

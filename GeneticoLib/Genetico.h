@@ -18,10 +18,11 @@ namespace GeneticoLib {
 		std::vector<Formacion> soluciones;
 		Formacion f, hijo1, hijo2;
 
-		std::cout << "Generando Soluciones Iniciales:\n";
+		//std::cout << "Generando Soluciones Iniciales:\n";
 		for (int i = 0; i < cantidadpoblacion; i++) {
 			f.generarFormacionAleatoria(p.getLargo());
 			f.setCalculoFitness(FuncionesFitness::Fitness(f.getFormacion(), p, rol, modo, forTecnica));
+
 			soluciones.push_back(f);
 		}
 
@@ -32,8 +33,9 @@ namespace GeneticoLib {
 		int generaciones = 0;
 		int random1 = 0, random2 = 0;
 
-		std::cout << "Presione enter para empezar!\n";
-		getchar();
+		//std::cout << "Presione enter para empezar!\n";
+		//getchar();
+		//getchar();
 
 		//Ambas condiciones de termino, deber�amos elegir una sola?
 		//hasta que las mejores 2 soluciones convergan a un valor
@@ -74,7 +76,8 @@ namespace GeneticoLib {
 			if (ordenar) sort(soluciones.begin(), soluciones.end(), Formacion::Compare);
 			ordenar = false;
 
-			std::cout << "Generacion: " << generaciones + 1 << "\n";
+			//std::cout << "Generacion: " << generaciones + 1 << "/"<<generacionespermitidas <<"\n";
+			std::cout << "Calculando formaciones: " << (int)((generaciones + 1) / generacionespermitidas) << "%%\n";
 			generaciones++;
 			//getchar();
 		}

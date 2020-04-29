@@ -202,7 +202,7 @@ namespace GeneticoLib {
 
 		//cout <<  p.getJugadorById(formacion[i]).compatibilidadPosicion[rol[i]-1] << '\n';
 
-		if (modo == 'A')
+		if (modo == 'A' || modo== 'O')
 		{
 			std::vector<int> formacionDefensa;
 			for (x = i; x < defensa; x++)

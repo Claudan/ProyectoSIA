@@ -12,58 +12,123 @@ using namespace GeneticoLib;
 //using namespace FID3Lib;
 
 Experto conocimientoExpertoFIFA();
+int mainIdealPrototipoSIA();
 
 int main()
 {
-    /*Experto exp = conocimientoExpertoFIFA();
-    exp.generaGrafico();
-
-    vector<string> input = { "4-4-2", "Defensiva", "Posesion","4-5-1", "4-3-2-1", "Contraataque", "Directo" };
-    vector<vector<string>> soluciones = exp.infiereTodasLasSolucionesBC(input);*/
-    
-    string rutaarchivoplantel ="..\\GeneticoLib\\Polivalencia_coquimbo.csv";
-    string rutasinergias = "..\\GeneticoLib\\sinergiaCoquimbo.txt";
-    string rutaRoles = "..\\GeneticoLib\\Formaciones\\Formacion1.txt";
-    Plantel plantel;
-    plantel.cargarArchivo(rutaarchivoplantel, rutasinergias);
-    string forTactica = devolverForTactica(rutaRoles);
-    int * rol = devolverRoles(rutaRoles);
-    char modo = devolverModo(rutaRoles);
-    vector<Formacion> sol;
-    //nombrearchivoplantel, roljugadores, porcentajemutacion, iteraciones, poblacion,porcentaje mutacion, de 0 a 100,cantidad generaciones maxima,tamano poblacion
-	sol=Genetico(plantel,rol,modo,forTactica,50,5000,20);
-    for (int i = 0; i < sol.size(); i++) sol.at(i).ImprimirFormacion();
-    entregarResultados(plantel, sol, rol, forTactica);
-
+    mainIdealPrototipoSIA();
     return(0);
 }
 
 int mainIdealPrototipoSIA() {
-    //PASOS:
+    string rutaequipo;
+    int seleccion = 0;
+    while (seleccion !=1 && seleccion != 2) { //Esto es parte del id3
+        cout << "Seleccione equipo propio (1 o 2):" << endl;
+        cout << "\t1.-Club Deportes La Serena"<<endl;
+        cout << "\t2.-Club Deportes Coquimbo Unido" << endl<<"\t";
+        cin >> seleccion;
+        if (seleccion == 1) rutaequipo = ""; //TO-DO
+        else if (seleccion == 2) rutaequipo = "";//TO-DO
+        else cout << "Opcion no valida. Ingreselo nuevamente." << endl<<endl;
+    }
+    cout << seleccion;
+    //Codigo para generar la polivalencia!!!
+    // cout<<"Analizando equipo.<<endl;
+    //Aquí se debe definir la ruta de salida de la polivalencia de serena o coquimbo
+    //para pasarla al genetico.
 
-    //ESTADO: FUNCIONANDO
-    //-----------------------------------------
-    // 1. ExpertoLib (Librería Sistema Experto)
-    //-----------------------------------------
-    // Generamos un arbol dinámico con 34 reglas FIFA (preparado para ser consultado)
-    // Al ser consultado retorna las formaciones detalladas ideales  
-    // para contrarrestar una formación enemiga dada
+
+    //Ahora son cosas para el sistema experto
+    string formacionrival;
+    cout << "Ingrese la formacion del equipo rival, indicando con numeros la cantidad de jugadores por linea y separados por guion. (Ej: 4-3-3 , 5-3-2)" << endl;
+    cin >> formacionrival;
+    seleccion = 0;
     
-    //ESTADO: PENDIENTE 
-    //---------------------------------
-    // 2. FID3Lib (Librería ID3 difuso)
-    //---------------------------------
-    //Generamos un arbol con reglas difusas para clasificar a cada jugador 
-    //de acuerdo a su polivalencia (que tan "aptos" son para cada posición)
-   
-    //ESTADO: FUNCIONANDO
-    //------------------------------------------------
-    // 3. GeneticoLib (Librería de Algoritmo Genético)
-    //------------------------------------------------
-    // Este Algoritmo (Genético) permite optimizar el equipo.
-    // Obtiene la mejor posición y jugadores que deberían estar en dichas posiciones 
-    // Dada la formación del equipo que contrarreste el equipo rival, 
-    // la polivalencia de los jugadores y sinergia
+    string estrategiarival;
+    while (seleccion < 1 || seleccion > 3) {
+        cout << "Cual es la estrategia del equipo rival? Escriba un numero:" << endl;
+        cout << "\t1.-Ofensiva" << endl;
+        cout << "\t2.-Defensiva" << endl;
+        cout << "\t3.-Balanceada" << endl;
+        cout << "\t";
+        cin >> seleccion;
+        if (seleccion == 1) estrategiarival = "Ofensiva";
+        else if (seleccion == 2) estrategiarival = "Defensiva";
+        else if (seleccion == 3) estrategiarival = "Balanceada";
+        else cout << "Opcion no valida. Ingreselo nuevamente." << endl;
+    }
+    cout << "Seleccionado: " << estrategiarival << endl<<endl;
+    seleccion = 0;
+    string modojuegorival;
+    while (seleccion < 1 || seleccion > 3) {
+        cout << "Cual es la forma de juego del equipo rival? Elija uno de los siguientes valores:" << endl;
+        cout << "\t1.-Atacar" << endl;
+        cout << "\t2.-Contraataque" << endl;
+        cout << "\t3.-Posesion" << endl;
+        cout << "\t";
+        cin >> seleccion;
+        if (seleccion == 1) modojuegorival = "Atacar";
+        else if (seleccion == 2) modojuegorival = "Contraataque";
+        else if (seleccion == 3) modojuegorival = "Posesion";
+        else cout << "Opcion no valida. Ingreselo nuevamente." << endl;
+    }
+    cout << "Seleccionado: " << modojuegorival << endl<<endl;
+    cout<<"Calculando tipos de formaciones para enfrentar al rival."<<endl<<endl;
+
+    Experto exp = conocimientoExpertoFIFA();
+    vector<string>inforival = { formacionrival, estrategiarival, modojuegorival};
+    vector<vector<string>> solucionesexp = exp.infiereTodasLasSolucionesBC(inforival);
+
+    string linea;
+    seleccion = 0;
+    if (solucionesexp.size() == 0) {
+        cout << "No hay formaciones en la base de conocimiento que contrarresten al rival" << endl << endl;
+        cout << "Intentando con 4-3-3." << endl << endl; //Failsafe (?)
+        linea = linea + "433;" + "3,3,4,5,7,7,7,13,14,15;B";
+    }
+    else {
+        while (seleccion < 1 || seleccion > solucionesexp.size()) {
+            cout << "Seleccione la formación que desea usar." << endl;
+            for (int i = 0; i < solucionesexp.size(); i++) {
+                cout << "\t" << i + 1 << ".-";
+                for (int j = 0; j < 1/* soluciones[i].size()*/; j++) {
+                    cout << solucionesexp[i][j] << " ";
+                }
+                cout << endl;
+            }
+            cout << "\t";
+            cin >> seleccion;
+            if (seleccion<1 || seleccion>solucionesexp.size()) cout << "Opcion no valida. Ingreselo nuevamente." << endl;
+        }
+        seleccion--;
+
+        linea = solucionesexp[seleccion][0] + ";" + solucionesexp[seleccion][1];
+    }
+    
+    cout <<"Seleccionado: "<< linea<<endl<<endl;
+    ofstream archivo;
+    string rutaRoles = "..\\formacionprueba.txt";
+    archivo.open(rutaRoles);
+    archivo << linea;
+    archivo.close();
+
+    //Ahora es el algoritmo genetico.
+    
+    
+    string rutaarchivoplantel = "..\\Polivalencia_coquimbo.csv";
+    string rutasinergias = "..\\sinergiaCoquimbo.txt";
+    Plantel plantel;
+    plantel.cargarArchivo(rutaarchivoplantel, rutasinergias);
+    string forTactica = devolverForTactica(rutaRoles);
+    int* rol = devolverRoles(rutaRoles);
+    char modo = devolverModo(rutaRoles);
+    vector<Formacion> sol;
+    cout << "Generando formaciones de jugadores optimizadas para enfrentar al rival." << endl << endl <<"...";
+    //nombrearchivoplantel, roljugadores, porcentajemutacion, iteraciones, poblacion,porcentaje mutacion, de 0 a 100,cantidad generaciones maxima,tamano poblacion
+    sol = Genetico(plantel, rol, modo, forTactica, 40, 5000, 20);
+    //for (int i = 0; i < sol.size(); i++) sol.at(i).ImprimirFormacion();
+    entregarResultados(plantel, sol, rol, forTactica, true, "..\\outputformaciones.txt");
 
     return(0);
 }

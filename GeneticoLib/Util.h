@@ -31,25 +31,36 @@ namespace GeneticoLib {
 			"Extremo izquierdo / EI",
 			"Extremo derecho / ED" };
 
-		if (i < 15 && i > 0) return roles[i - 1];
+		if (i < 15 && i > 0) return roles[i - 2];
 		else return "Rol desconocido";
 	}
 
-	void entregarResultados(Plantel p, std::vector<Formacion> soluciones, int rol[], std::string tipoformacion) {
+	void entregarResultados(Plantel p, std::vector<Formacion> soluciones, int rol[], std::string tipoformacion, bool entregaporpantalla, std::string nombresalida) {
 		std::ofstream salida;
-		salida.open("output.txt");
+		salida.open(nombresalida);
 		Formacion f;
 		int cantsol=5;
 		if (soluciones.size() < cantsol) cantsol = soluciones.size();
-
+		
+		if (entregaporpantalla) {
+			for (int i = 0; i < cantsol; i++) {
+				f = soluciones.at(i);
+				std::cout << "Formacion " << i + 1 << " (Tipo: " << tipoformacion << ")" << " (Valoracion: " << f.getCalculoFitness() << ")" << std::endl;
+				for (int k = 0; k < 10; k++) {
+					std::cout << k + 1 << ": " << p.getJugadorById(f.getFormacion()[k]).getNombreJugador() << " (" << getRoles(rol[k]) << ")" << std::endl;
+				}
+				std::cout<< '\n';
+			}
+		}
 		for (int i = 0; i < cantsol; i++) {
 			f = soluciones.at(i);
-			salida << "Formacion " << i + 1 << " (Tipo: "<<tipoformacion<<")"<<" (Valoracion: "<<f.getCalculoFitness()<<")"<<std::endl;
+			salida << "Formacion " << i + 1 << " (Tipo: " << tipoformacion << ")" << " (Valoracion: " << f.getCalculoFitness() << ")" << std::endl;
 			for (int k = 0; k < 10; k++) {
-				salida << k + 1 << ": " << p.getJugadorById(f.getFormacion()[k]).getNombreJugador() << " (" << getRoles(rol[k]) <<  ")" << std::endl;
+				salida << k + 1 << ": " << p.getJugadorById(f.getFormacion()[k]).getNombreJugador() << " (" << getRoles(rol[k]) << ")" << std::endl;
 			}
 			salida << '\n';
 		}
+		
 		salida.close();
 	}
 
