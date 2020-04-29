@@ -56,7 +56,7 @@ int mainIdealPrototipoSIA() {
         cout << "\t2.-Si." << endl << "\t";
         cin >> seleccion;
         if (seleccion == 1) {
-            //algo.
+            cout << "Utilizando polivalencias calculadas anteriormente." << endl;
         }
         else if (seleccion == 2)
         {
