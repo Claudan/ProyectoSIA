@@ -85,7 +85,7 @@ int mainIdealPrototipoSIA() {
     if (solucionesexp.size() == 0) {
         cout << "No hay formaciones en la base de conocimiento que contrarresten al rival" << endl << endl;
         cout << "Intentando con 4-3-3." << endl << endl; //Failsafe (?)
-        linea = linea + "433;" + "3,3,4,5,7,7,7,13,14,15;B";
+        linea = linea + "433;" + "2,2,3,4,6,6,6,12,13,14;B";
     }
     else {
         while (seleccion < 1 || seleccion > solucionesexp.size()) {
